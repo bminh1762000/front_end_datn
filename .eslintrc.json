@@ -4,23 +4,45 @@
         "es2021": true,
         "node": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "overrides": [
-    ],
+    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
+    "overrides": [],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
+    "plugins": ["react", "@typescript-eslint"],
     "rules": {
-        "react/prop-types": "off"
+        "react/button-has-type": "warn",
+        "react/default-props-match-prop-types": "warn",
+        "react/destructuring-assignment": "off",
+        "react/forbid-prop-types": ["error", { "forbid": ["any"] }],
+        "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx", "tsx"] }],
+        "react/no-array-index-key": "warn",
+        "react/no-multi-comp": "off",
+        "react/no-unused-prop-types": ["error", { "skipShapeProps": true }],
+        "react/prefer-stateless-function": "off",
+        "react/sort-comp": [
+            "error",
+            {
+                "order": [
+                    "type-annotations",
+                    "static-methods",
+                    "lifecycle",
+                    "/^on.+$/",
+                    "everything-else",
+                    "rendering"
+                ],
+                "groups": {
+                    "rendering": ["/^render.+$/", "render"]
+                }
+            }
+        ],
+        "react/require-default-props": "warn",
+        "react/display-name": "warn",
+        "react/jsx-key": "warn",
+        "react/no-direct-mutation-state": "off",
+        "react/prop-types": "off",
+        "no-unused-vars": ["error", { "vars": "all" }]
     }
 }
