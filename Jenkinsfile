@@ -3,6 +3,9 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
+    tools {
+        nodejs 'nodejs'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -11,13 +14,13 @@ pipeline {
         }
         stage('Linting') {
             steps {
-                sh 'npm install'
-                sh 'npm run lint'
+                sh 'yarn install'
+                sh 'yarn lint'
             }
         }
         stage('Formatting') {
             steps {
-                sh 'npm run format'
+                sh 'yarn run format'
             }
         }
         stage('Build-Prod') {

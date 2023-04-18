@@ -4,4 +4,4 @@ services:
         image: shop-app/node:v1
         restart: always
         ports:
-           - "3000:3000"
+            - '8000:80'
