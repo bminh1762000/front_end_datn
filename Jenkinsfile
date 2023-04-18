@@ -4,7 +4,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     tools {
-        nodejs 'nodejs'
+        nodejs 'Nodejs_18.12.0'
     }
     stages {
         stage('Checkout') {
