@@ -3,26 +3,26 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
-    tools {
-        nodejs 'Nodejs_18.12.0'
-    }
+    // tools {
+    //     nodejs 'Nodejs_18.12.0'
+    // }
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-        stage('Linting') {
-            steps {
-                sh 'yarn install'
-                sh 'yarn lint'
-            }
-        }
-        stage('Formatting') {
-            steps {
-                sh 'yarn format'
-            }
-        }
+        // stage('Linting') {
+        //     steps {
+        //         sh 'yarn install'
+        //         sh 'yarn lint'
+        //     }
+        // }
+        // stage('Formatting') {
+        //     steps {
+        //         sh 'yarn format'
+        //     }
+        // }
         stage('Build') {
             when {
                 expression {
@@ -31,7 +31,7 @@ pipeline {
                 }
             }
             steps {
-                sh '/usr/local/bin/docker-compose build'
+                sh 'docker-compose build'
             }
         }
         stage('Deploy') {
@@ -42,7 +42,7 @@ pipeline {
                 }
             }
             steps {
-                sh '/usr/local/bin/docker-compose up -d'
+                sh 'docker-compose up -d'
             }
         }
     }
