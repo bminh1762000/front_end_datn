@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { default as Spinners } from "./Spinner";
+import { default as Spinners } from './Spinner';
 
 const WithSpinner = (WrappedComponent) => {
-  const Spinner = ({ isLoading, ...otherProps }) => {
-    return isLoading ? <Spinners /> : <WrappedComponent {...otherProps} />;
-  };
+    const Spinner = ({ isLoading, ...otherProps }) => {
+        return isLoading ? <Spinners /> : <WrappedComponent {...otherProps} />;
+    };
 
-  return Spinner;
+    return Spinner;
 };
 
 export default WithSpinner;

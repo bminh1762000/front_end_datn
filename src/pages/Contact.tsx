@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import Contact from "../components/ContactItem";
+import Contact from '../components/ContactItem';
 
 const ContactPage = () => (
-  <ContactContainer>
-    <Contact />
-  </ContactContainer>
+    <ContactContainer>
+        <Contact />
+    </ContactContainer>
 );
 
 const ContactContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-item: center;
+    display: flex;
+    justify-content: center;
+    align-item: center;
 `;
 
 export default ContactPage;
