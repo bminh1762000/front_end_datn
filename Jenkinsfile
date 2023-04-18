@@ -20,7 +20,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'sudo docker-compose build'
+                sh 'docker-compose build'
             }
         }
         stage('Linting') {
@@ -42,7 +42,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'sudo docker-compose up -d'
+                sh 'docker-compose up -d'
             }
         }
     }
