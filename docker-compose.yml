@@ -2,6 +2,8 @@ version: '3.7'
 services:
     app:
         image: shop-app/node:v1
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
         restart: always
         ports:
             - '8000:80'
