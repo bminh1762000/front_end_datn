@@ -3,6 +3,9 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
+    environment {
+        PATH = "/usr/local/bin:${env.PATH}"
+    }
     stages {
         stage('Checkout') {
             steps {
