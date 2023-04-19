@@ -34,7 +34,7 @@ pipeline {
             steps {
                 sh 'whoami'
                 sh 'pwd'
-                sh 'which docker'
+                // sh 'which docker'
                 sh 'docker --version'
                 sh 'docker-compose --version'
                 sh 'docker-compose build'
