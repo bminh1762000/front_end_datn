@@ -10,8 +10,6 @@ import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { loginSchema } from '../utils/validation/login';
 
-const ROOT = 'da-sign-in';
-
 const SignIn = ({ emailSignInStart }) => {
     const formik = useFormik({
         enableReinitialize: true,
@@ -62,17 +60,17 @@ const SignIn = ({ emailSignInStart }) => {
                 <div className="forgot-password">
                     <Link to="/forgot-password">Forgot Password?</Link>
                 </div>
-
                 <ButtonsContainer>
                     <CustomButton type="button" onClick={handleSubmit}>
                         Sign in
                     </CustomButton>
-                    <CustomButton className="btn-signup">
-                        <Link to="/signup" className="button signup">
-                            SignUp
-                        </Link>
-                    </CustomButton>
                 </ButtonsContainer>
+                <div className="section-signup">
+                    <span>{`Don't have an account yet? `}</span>
+                    <Link to="/signup" className="signup">
+                        Sign up
+                    </Link>
+                </div>
             </div>
         </SignInContainer>
     );
@@ -94,22 +92,26 @@ const SignInContainer = styled.div`
         margin: 10px 0;
     }
 
-    .btn-signup {
+    .section-signup {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 20px;
         .signup {
-            color: #fff;
-            text-decoration: none;
-        }
-        &:hover {
-            .signup {
-                color: #000;
-            }
+            margin-left: 5px;
+            color: #4285f4;
         }
     }
 `;
 
 const ButtonsContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+
+    button {
+        width: 100%;
+        border-radius: 0.2rem;
+    }
 `;
 
 const mapDispatchToProps = (dispatch) => ({

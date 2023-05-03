@@ -7,11 +7,14 @@ type Props = {
     placeholder?: string;
     isValid?: boolean;
     error?: string;
+    isRequired?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const FormInput = ({ handleChange, label, placeholder, ...props }: Props) => (
     <GroupContainer>
-        <FormInputLabel className="input-label">{label}</FormInputLabel>
+        <FormInputLabel className="input-label">
+            {label} {props.isRequired && <span className="required">*</span>}
+        </FormInputLabel>
         <FormInputContainer
             onChange={handleChange}
             {...props}
@@ -49,6 +52,10 @@ const FormInputContainer = styled.input`
 const FormInputLabel = styled.label`
     color: ${subColor};
     font-size: 16px;
+
+    .required {
+        color: red;
+    }
 `;
 
 export default FormInput;
