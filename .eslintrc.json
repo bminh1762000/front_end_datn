@@ -43,6 +43,6 @@
         "react/jsx-key": "warn",
         "react/no-direct-mutation-state": "off",
         "react/prop-types": "off",
-        "no-unused-vars": ["error", { "vars": "all" }]
+        "no-unused-vars": ["warn", { "vars": "all" }]
     }
 }

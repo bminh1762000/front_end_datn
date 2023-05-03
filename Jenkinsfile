@@ -12,18 +12,18 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Linting') {
-            steps {
-                nodejs ('Nodejs_18.12.0'){
-                    sh 'yarn install'
-                    sh 'yarn lint'
-                }
-            }
-        }
         stage('Formatting') {
             steps {
                 nodejs ('Nodejs_18.12.0'){
                     sh 'yarn format'
+                }
+            }
+        }
+        stage('SAST') {
+            steps {
+                nodejs ('Nodejs_18.12.0'){
+                    sh 'yarn install'
+                    sh 'yarn lint'
                 }
             }
         }
@@ -35,11 +35,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'whoami'
-                sh 'pwd'
-                // sh 'which docker'
-                sh 'docker --version'
-                sh 'docker-compose --version'
                 sh 'docker-compose build'
             }
         }

@@ -1,101 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import FormInput from './FormInput';
 import CustomButton from './CustomButton';
-import { required, isEmail, length } from '../utils/validation';
+
 import { emailSignInStart } from '../redux/user/user.actions';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { loginSchema } from '../utils/validation/login';
+
+const ROOT = 'da-sign-in';
 
 const SignIn = ({ emailSignInStart }) => {
-    const initialValues = {
-        logInForm: {
-            email: {
-                value: '',
-                valid: true,
-                validators: [required, isEmail],
-            },
-            password: {
-                value: '',
-                valid: true,
-                validators: [required, length({ min: 8 })],
-            },
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            email: '',
+            password: '',
         },
-        formValid: false,
-    };
+        validationSchema: loginSchema,
+        onSubmit: (values) => {
+            emailSignInStart({ email: values.email, password: values.password });
+        },
+    });
 
-    const [values, setValues] = useState(initialValues);
+    const { errors, values, submitForm, setValues, touched } = formik;
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const {
-            logInForm: { email, password },
-            formValid,
-        } = values;
-        if (!formValid) {
-            alert("Form don't valid. Please enter valid form.");
-            return;
-        }
-        emailSignInStart({ email: email.value, password: password.value });
+    const handleSubmit = () => {
+        submitForm();
     };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        let isValid = true;
-        for (const validator of values.logInForm[name].validators) {
-            isValid = isValid && validator(value);
-        }
-        const updatedForm = {
-            ...values.logInForm,
-            [name]: {
-                ...values.logInForm[name],
-                value: value,
-                valid: isValid,
-            },
-        };
-        let isValidForm = true;
-        for (const inputName in values.logInForm) {
-            isValidForm = isValidForm && values.logInForm[inputName].valid;
-        }
-        setValues({ logInForm: updatedForm, formValid: isValidForm });
+        setValues({ ...values, [name]: value });
     };
 
     return (
         <SignInContainer>
             <h2>I already have an account</h2>
-            <span>Sign in with your email and password</span>
 
-            <form onSubmit={handleSubmit}>
+            <div className="form-login">
                 <FormInput
                     name="email"
                     type="email"
-                    value={values.logInForm.email.value}
+                    value={values.email}
                     handleChange={handleChange}
                     label="Email"
-                    isValid={values.logInForm.email.valid}
+                    isValid={!(!!errors.email && touched.email)}
+                    error={errors.email}
                 />
                 <FormInput
                     name="password"
                     type="password"
-                    value={values.logInForm.password.value}
+                    value={values.password}
                     handleChange={handleChange}
                     label="Password"
-                    isValid={values.logInForm.password.valid}
+                    isValid={!(!!errors.password && touched.password)}
+                    error={errors.password}
                 />
-                <div className="mt-5">
+                <div className="forgot-password">
                     <Link to="/forgot-password">Forgot Password?</Link>
                 </div>
 
                 <ButtonsContainer>
-                    <CustomButton type="submit"> Sign in </CustomButton>
-                    <CustomButton>
+                    <CustomButton type="button" onClick={handleSubmit}>
+                        Sign in
+                    </CustomButton>
+                    <CustomButton className="btn-signup">
                         <Link to="/signup" className="button signup">
                             SignUp
                         </Link>
                     </CustomButton>
                 </ButtonsContainer>
-            </form>
+            </div>
         </SignInContainer>
     );
 };
@@ -105,12 +83,27 @@ const SignInContainer = styled.div`
     display: flex;
     flex-direction: column;
 
+    .form-login {
+        width: 100%;
+        .forgot-password {
+            margin-bottom: 20px;
+        }
+    }
+
     h2 {
         margin: 10px 0;
     }
 
-    @media (max-width: 768px) {
-        margin-bottom: 50px;
+    .btn-signup {
+        .signup {
+            color: #fff;
+            text-decoration: none;
+        }
+        &:hover {
+            .signup {
+                color: #000;
+            }
+        }
     }
 `;
 
