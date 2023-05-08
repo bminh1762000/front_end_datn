@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const AuthContainer = styled.div`
-    width: 40%;
+    width: 35%;
     display: flex;
     justify-content: center;
     margin: 30px auto;

@@ -39,10 +39,10 @@ const CartDropdownContainer = styled.div`
     display: flex;
     flex-direction: column;
     padding: 20px;
-    border: 1px solid black;
+    border: 1px solid #bdc3c7;
     background-color: #ffffff;
-    top: 90px;
-    right: 40px;
+    top: 60px;
+    right: 8%;
     z-index: 5;
 `;
 

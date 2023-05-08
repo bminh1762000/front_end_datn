@@ -10,28 +10,28 @@ const Footer = () => {
                     <FaShippingFast size={55} color={'#d35400'} className="icon" />
                     <div className="item-description">
                         <p>Chính sách giao hàng</p>
-                        <p>Nhận hàng và thanh toán tại nhà </p>
+                        <p>Nhận hàng và thanh toán tại nhà</p>
                     </div>
                 </PositiveItem>
                 <PositiveItem>
                     <FaSync size={55} color={'#d35400'} className="icon" />
                     <div className="item-description">
-                        <p>Chính sách giao hàng</p>
-                        <p>Nhận hàng và thanh toán tại nhà </p>
+                        <p>Chính sách đổi trả</p>
+                        <p>60 ngày đổi trả vì bất kỳ lý do gì</p>
                     </div>
                 </PositiveItem>
                 <PositiveItem>
                     <FaCreditCard size={55} color={'#d35400'} className="icon" />
                     <div className="item-description">
-                        <p>Chính sách giao hàng</p>
-                        <p>Nhận hàng và thanh toán tại nhà </p>
+                        <p>Chính sách thanh toán</p>
+                        <p>Thanh toán mọi lúc mọi nơi</p>
                     </div>
                 </PositiveItem>
                 <PositiveItem>
                     <FaComments size={55} color={'#d35400'} className="icon" />
                     <div className="item-description">
-                        <p>Chính sách giao hàng</p>
-                        <p>Nhận hàng và thanh toán tại nhà </p>
+                        <p>Chăm sóc khách hàng</p>
+                        <p>Hotline hỗ trợ từ 8h30 - 22h mỗi ngày</p>
                     </div>
                 </PositiveItem>
             </Positive>
@@ -78,6 +78,8 @@ const Footer = () => {
 <style></style>;
 
 const FooterContainer = styled.div`
+    min-height: 50px;
+    flex-shrink: 0;
     margin-top: 5rem;
     width: 100%;
     padding: 0 1rem;

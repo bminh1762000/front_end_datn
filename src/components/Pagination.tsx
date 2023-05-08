@@ -17,7 +17,7 @@ const Pagination = (props: any) => {
             {
                 <button
                     onClick={() => changePage(page - 1)}
-                    className={['prev', page === 1 ? 'disabled' : ''].join(' ')}
+                    className={['prev', !page || page === 1 ? 'disabled' : ''].join(' ')}
                 >
                     Prev
                 </button>
@@ -34,7 +34,7 @@ const Pagination = (props: any) => {
             {
                 <button
                     onClick={() => changePage(page + 1)}
-                    className={['next', page === lastPage ? 'disabled' : ''].join(' ')}
+                    className={['next', !page || !lastPage || page === lastPage ? 'disabled' : ''].join(' ')}
                 >
                     Next
                 </button>

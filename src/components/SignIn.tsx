@@ -36,7 +36,7 @@ const SignIn = ({ emailSignInStart }) => {
 
     return (
         <SignInContainer>
-            <h2>I already have an account</h2>
+            <h2>Tôi đã có tài khoản</h2>
 
             <div className="form-login">
                 <FormInput
@@ -53,22 +53,22 @@ const SignIn = ({ emailSignInStart }) => {
                     type="password"
                     value={values.password}
                     handleChange={handleChange}
-                    label="Password"
+                    label="Mật khẩu"
                     isValid={!(!!errors.password && touched.password)}
                     error={errors.password}
                 />
                 <div className="forgot-password">
-                    <Link to="/forgot-password">Forgot Password?</Link>
+                    <Link to="/forgot-password">Quên mật khẩu?</Link>
                 </div>
                 <ButtonsContainer>
                     <CustomButton type="button" onClick={handleSubmit}>
-                        Sign in
+                        Đăng nhập
                     </CustomButton>
                 </ButtonsContainer>
                 <div className="section-signup">
-                    <span>{`Don't have an account yet? `}</span>
+                    <span>{`Bạn chưa có tài khoản?`}</span>
                     <Link to="/signup" className="signup">
-                        Sign up
+                        Đăng ký
                     </Link>
                 </div>
             </div>
@@ -99,7 +99,7 @@ const SignInContainer = styled.div`
         margin-top: 20px;
         .signup {
             margin-left: 5px;
-            color: #4285f4;
+            color: #0984e3;
         }
     }
 `;

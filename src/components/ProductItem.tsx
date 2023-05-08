@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styled from 'styled-components';
+import { formatPrice } from '../utils/product';
 
 const ProductItem = ({ product: { title, imageUrl, price, _id } }) => {
     const history = useHistory();
@@ -10,7 +11,7 @@ const ProductItem = ({ product: { title, imageUrl, price, _id } }) => {
             <CartImage imageUrl={imageUrl} />
             <CartDetail>
                 <p className="title">{title}</p>
-                <p className="price">{price}đ</p>
+                <p className="price">{formatPrice(Number(price))}đ</p>
             </CartDetail>
         </CartItemContainer>
     );

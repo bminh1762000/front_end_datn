@@ -8,9 +8,9 @@ import Pagination from './Pagination';
 import Filter from './Filter';
 
 import styled from 'styled-components';
-import { fetchProductsStart } from '../redux/products';
+import { changePage, fetchProductsStart } from '../redux/products';
 
-const ProductList = ({ loading, page, products, fetchProductsStart }) => {
+const ProductList = ({ loading, page, lastPage, products, changePage, fetchProductsStart }) => {
     const [newProduct, setNewProduct] = useState([]);
 
     useEffect(() => {
@@ -29,28 +29,39 @@ const ProductList = ({ loading, page, products, fetchProductsStart }) => {
     return (
         <ProductListContainer>
             <Filter />
+
             <ListContainer>
-                {newProduct.length > 0 ? (
-                    newProduct.map((product) => {
-                        return <ProductItem key={product._id} product={product} />;
-                    })
-                ) : (
-                    <p>No products</p>
-                )}
+                <div className="list-item">
+                    {newProduct.length > 0 ? (
+                        newProduct.map((product) => {
+                            return <ProductItem key={product._id} product={product} />;
+                        })
+                    ) : (
+                        <p>No products</p>
+                    )}
+                </div>
+                <Pagination page={page} lastPage={lastPage} changePage={changePage} />
             </ListContainer>
-            <Pagination />
         </ProductListContainer>
     );
 };
 
 const ProductListContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
     margin-top: 2rem;
 `;
 
 const ListContainer = styled.div`
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
+    .list-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 `;
 
 const mapStateToProps = (state) => {
@@ -58,12 +69,14 @@ const mapStateToProps = (state) => {
         loading: state.product.loading,
         page: state.product.page,
         products: state.product.products,
+        lastPage: state.product.lastPage,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchProductsStart: () => dispatch(fetchProductsStart()),
+        changePage: (page) => dispatch(changePage(page)),
     };
 };
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import styled from 'styled-components';
+import { formatPrice } from '../utils/product';
+import { updateFilter } from '../redux/products';
 
 type Props = {
     filters: {
@@ -21,39 +23,31 @@ const Filter = (props: Props) => {
     return (
         <SectionContainer>
             <FilterForm>
-                <div>
-                    <div className="form-group">
-                        <label htmlFor="category">Hãng</label>
-                        <select
-                            className="form-control"
-                            name="category"
-                            id="category"
-                            onChange={changeFilter}
-                            value={category}
-                        >
-                            <option value="all">All</option>
-                            <option value="hp">HP</option>
-                            <option value="lenovo">Lenovo</option>
-                            <option value="dell">Dell</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="category">Sắp xếp</label>
-                        <select className="form-control" name="sort" id="sort" onChange={changeFilter} value={sort}>
-                            <option value="asc">Tăng dần</option>
-                            <option value="desc">Giảm dần</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="checkbox"
-                            name="shipping"
-                            id="shipping"
-                            checked={shipping}
-                            onChange={changeFilter}
-                        />
-                        <label htmlFor="shipping">Free ship</label>
-                    </div>
+                <div className="form-group">
+                    <label htmlFor="category">Hãng</label>
+                    <select
+                        className="form-control"
+                        name="category"
+                        id="category"
+                        onChange={changeFilter}
+                        value={category}
+                    >
+                        <option value="all">All</option>
+                        <option value="hp">HP</option>
+                        <option value="lenovo">Lenovo</option>
+                        <option value="dell">Dell</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="category">Sắp xếp</label>
+                    <select className="form-control" name="sort" id="sort" onChange={changeFilter} value={sort}>
+                        <option value="asc">Tăng dần</option>
+                        <option value="desc">Giảm dần</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <input type="checkbox" name="shipping" id="shipping" checked={shipping} onChange={changeFilter} />
+                    <label htmlFor="shipping">Free ship</label>
                 </div>
                 <PriceGroup>
                     <p>Price</p>
@@ -70,17 +64,17 @@ const Filter = (props: Props) => {
                     </label>
                     <label>
                         <input type="radio" name="price" value="0" checked={price === 0} onChange={changeFilter} />
-                        10000000đ - 15000000đ
+                        {`${formatPrice(1000000)} - ${formatPrice(15000000)}`}
                     </label>
                     <label>
                         <input
                             type="radio"
                             name="price"
-                            value="10000000"
-                            checked={price === 10000000}
+                            value="15000000"
+                            checked={price === 15000000}
                             onChange={changeFilter}
                         />
-                        15000000đ - 20000000đ
+                        {`${formatPrice(15000000)} - ${formatPrice(20000000)}`}
                     </label>
                     <label>
                         <input
@@ -90,7 +84,7 @@ const Filter = (props: Props) => {
                             checked={price === 20000000}
                             onChange={changeFilter}
                         />
-                        20000000đ trở lên
+                        {`${formatPrice(20000000)} trở lên`}
                     </label>
                 </PriceGroup>
             </FilterForm>
@@ -99,6 +93,7 @@ const Filter = (props: Props) => {
 };
 
 const SectionContainer = styled.section`
+    width: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -109,6 +104,11 @@ const SectionContainer = styled.section`
 const FilterForm = styled.form`
     display: flex;
     align-items: center;
+    flex-direction: column;
+
+    .form-group {
+        width: 100%;
+    }
 
     input {
         display: inline-block;
@@ -119,7 +119,6 @@ const FilterForm = styled.form`
 const PriceGroup = styled.div`
     display: flex;
     flex-direction: column;
-    margin-left: 3rem;
 `;
 
 const mapStateToProps = (state) => {
@@ -140,10 +139,7 @@ const mapDispatchToProps = (dispatch) => {
             } else {
                 filterValue = value;
             }
-            dispatch({
-                type: 'CHANGE_FILTER',
-                payload: { name, value: filterValue, type },
-            });
+            dispatch(updateFilter({ name, value: filterValue }));
         },
     };
 };

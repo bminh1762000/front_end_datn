@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import { signOutStart } from '../redux/user/user.actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import CartIcon from './CartIcon';
+import CartDropdown from './CartDropdown';
 import { FaBuffer as Logo } from 'react-icons/fa';
 
 const isActive = (history, path) => {
@@ -16,12 +17,13 @@ const isActive = (history, path) => {
 type Props = {
     history: any;
     user: any;
-    searchText: any;
     changeFilter: () => void;
     logOut: () => void;
+    hidden: boolean;
 };
 
-const Header = ({ history, user, searchText, changeFilter, logOut }: Props) => {
+const Header = ({ history, user, hidden, changeFilter, logOut }: Props) => {
+    const [searchText, setSearchText] = useState('');
     return (
         <HeaderContainer>
             <LogoContainer to="/">
@@ -30,35 +32,43 @@ const Header = ({ history, user, searchText, changeFilter, logOut }: Props) => {
             <OptionsContainer>
                 <>
                     <OptionLink to="/" style={isActive(history, '/')}>
-                        Home
-                    </OptionLink>
-                    <OptionLink to="/about" style={isActive(history, '/about')}>
-                        About
+                        Trang chủ
                     </OptionLink>
                     <OptionLink to="/products" style={isActive(history, '/products')}>
-                        Products
+                        Sản phẩm
+                    </OptionLink>
+                    <OptionLink to="/about" style={isActive(history, '/about')}>
+                        Giới thiệu
                     </OptionLink>
                     {user.userId ? (
                         <OptionLink as="div" onClick={() => logOut()}>
-                            Log out
+                            Đăng xuất
                         </OptionLink>
                     ) : (
                         <OptionLink to="/login" style={isActive(history, '/login')}>
-                            Log in
+                            Đăng nhập
                         </OptionLink>
                     )}
                     <OptionLink to="/cart">
                         <CartIcon />
                     </OptionLink>
+                    {hidden ? null : <CartDropdown />}
                 </>
                 <SearchContainer>
                     <form>
                         <input
+                            className="search-input"
                             type="text"
                             placeholder="Search"
                             name="search"
                             value={searchText}
-                            onChange={changeFilter}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    history.push(`/products`);
+                                    changeFilter();
+                                }
+                            }}
                         />
                     </form>
                 </SearchContainer>
@@ -69,6 +79,7 @@ const Header = ({ history, user, searchText, changeFilter, logOut }: Props) => {
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    hidden: state.cart.hidden,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -127,6 +138,12 @@ const OptionLink = styled(Link)`
 const SearchContainer = styled.div`
     display: flex;
     flex-direction: column;
+
+    .search-input {
+        border-radius: 0.2rem;
+        border: 1px solid #bdc3c7;
+        padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    }
 `;
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(Header);

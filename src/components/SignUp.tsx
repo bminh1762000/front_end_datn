@@ -42,15 +42,15 @@ const SignUp = ({ signUpStart }) => {
 
     return (
         <SignUpContainer>
-            <h2>I do not have a account</h2>
-            <span>Sign up with your email and password</span>
+            <h2>Tôi chưa có tài khoản</h2>
+            <span>Đăng ký tài khoản với email và mật khẩu</span>
             <form className="sign-up-form" onSubmit={handleSubmit}>
                 <FormInput
                     type="text"
                     name="displayName"
                     value={values.displayName}
                     handleChange={handleInputChange}
-                    label="Display Name"
+                    label="Tên hiển thị"
                     isValid={!(!!errors.displayName && touched.displayName)}
                     error={errors.displayName}
                     isRequired={true}
@@ -70,7 +70,7 @@ const SignUp = ({ signUpStart }) => {
                     name="password"
                     value={values.password}
                     handleChange={handleInputChange}
-                    label="Password"
+                    label="Mật khẩu"
                     isValid={!(!!errors.password && touched.password)}
                     error={errors.password}
                     isRequired={true}
@@ -80,13 +80,13 @@ const SignUp = ({ signUpStart }) => {
                     name="confirmPassword"
                     value={values.confirmPassword}
                     handleChange={handleInputChange}
-                    label="Confirm Password"
+                    label="Mật khẩu xác nhận"
                     isValid={!(!!errors.confirmPassword && touched.confirmPassword)}
                     error={errors.confirmPassword}
                     isRequired={true}
                 />
                 <CustomButton type="submit" className="btn-signup">
-                    SIGN UP
+                    Đăng ký
                 </CustomButton>
             </form>
         </SignUpContainer>

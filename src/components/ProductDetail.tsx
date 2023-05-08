@@ -4,47 +4,20 @@ import Button from './Button';
 
 import styled from 'styled-components';
 import { getProductDetailApi } from '../service/product';
+import { formatPrice } from '../utils/product';
 
 const ProductDetail = ({ match, history, addToCart, user }) => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const productId = match.params.productId;
         setLoading(true);
-        getProductDetailApi(productId)
-            .then((resData) => {
-                setProduct(resData.product);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err);
-            });
-        // fetch(`http://localhost:8080/products/${productId}`, {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        // })
-        //   .then((res) => {
-        //     return res.json();
-        //   })
-        //   .then((resData) => {
-        //     if (resData.error) {
-        //       throw new Error("Fetching product failed.");
-        //     }
-        //     setProduct(resData.product);
-        //     setLoading(false);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     setError(err);
-        //   });
+        getProductDetailApi(productId).then((resData) => {
+            setProduct(resData.product);
+            setLoading(false);
+        });
     }, []);
-
-    if (error) {
-        return <p>{error}</p>;
-    }
 
     if (loading) {
         return <p>Loading...</p>;
@@ -54,7 +27,7 @@ const ProductDetail = ({ match, history, addToCart, user }) => {
             <img src={product.imageUrl} alt="Image Products" />
             <DescriptionContainer>
                 <h1 className="title">{product.title}</h1>
-                <p className="price">{product.price} $</p>
+                <p className="price">{formatPrice(Number(product.price))} $</p>
                 <p className="description">
                     {`Tofu hoodie pop-up try-hard vice cornhole gluten-free keytar mlkshk
           8-bit small batch four loko letterpress. Yr cornhole hoodie tote bag

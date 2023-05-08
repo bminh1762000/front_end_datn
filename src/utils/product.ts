@@ -42,3 +42,7 @@ export const getTotalItem = (cartItems) => {
 export const getTotalPrice = (cartItems) => {
     return cartItems.reduce((totalPrice, cartItem) => totalPrice + cartItem.quantity * cartItem.price, 0);
 };
+
+export const formatPrice = (number: number) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+};
