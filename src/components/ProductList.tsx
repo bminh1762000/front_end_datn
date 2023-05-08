@@ -10,8 +10,9 @@ import Filter from './Filter';
 import styled from 'styled-components';
 import { changePage, fetchProductsStart } from '../redux/products';
 
-const ProductList = ({ loading, page, lastPage, products, changePage, fetchProductsStart }) => {
+const ProductList = ({ loading, page, lastPage, products, filter, changePage, fetchProductsStart }) => {
     const [newProduct, setNewProduct] = useState([]);
+    const [_lastPage, _setLastPage] = useState(lastPage);
 
     useEffect(() => {
         fetchProductsStart();
@@ -21,7 +22,42 @@ const ProductList = ({ loading, page, lastPage, products, changePage, fetchProdu
         if (products.length === 0) return;
         const newProduct = paginate(products, page);
         setNewProduct(newProduct);
-    }, [products]);
+    }, [products, page]);
+
+    useEffect(() => {
+        let newProducts = products.slice();
+        const { category, price, shipping, search, sort } = filter;
+        if (category !== 'all') {
+            newProducts = newProducts.filter((p) => p.category === category);
+        }
+        if (shipping) {
+            newProducts = newProducts.filter((p) => p.ship === shipping);
+        }
+        if (price !== 'all') {
+            newProducts = newProducts.filter((p) => {
+                if (price === 0) {
+                    return p.price < 15000000 && p.price >= 10000000;
+                } else if (price === 10000000) {
+                    return p.price < 10000000 && p.price >= 15000000;
+                } else {
+                    return p.price >= 20000000;
+                }
+            });
+        }
+        if (search !== '') {
+            newProducts = newProducts.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
+        }
+        if (sort === 'asc') {
+            newProducts = newProducts.sort((a, b) => Number(a.price) - Number(b.price));
+        }
+        if (sort === 'desc') {
+            newProducts = newProducts.sort((a, b) => Number(b.price) - Number(a.price));
+        }
+        const newProduct = paginate(newProducts, page);
+        changePage(1);
+        _setLastPage(Math.ceil(newProducts.length / 4));
+        setNewProduct(newProduct);
+    }, [filter, products]);
 
     if (loading) {
         return <h1>Loading ....</h1>;
@@ -40,7 +76,7 @@ const ProductList = ({ loading, page, lastPage, products, changePage, fetchProdu
                         <p>No products</p>
                     )}
                 </div>
-                <Pagination page={page} lastPage={lastPage} changePage={changePage} />
+                <Pagination page={page} lastPage={_lastPage} changePage={changePage} />
             </ListContainer>
         </ProductListContainer>
     );
@@ -69,7 +105,8 @@ const mapStateToProps = (state) => {
         loading: state.product.loading,
         page: state.product.page,
         products: state.product.products,
-        lastPage: state.product.lastPage,
+        lastPage: Math.ceil(state.product.products?.length / 4),
+        filter: state.product.filter,
     };
 };
 

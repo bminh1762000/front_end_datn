@@ -11,7 +11,7 @@ const ProductItem = ({ product: { title, imageUrl, price, _id } }) => {
             <CartImage imageUrl={imageUrl} />
             <CartDetail>
                 <p className="title">{title}</p>
-                <p className="price">{formatPrice(Number(price))}đ</p>
+                <p className="price">{formatPrice(Number(price))}</p>
             </CartDetail>
         </CartItemContainer>
     );
@@ -37,7 +37,8 @@ const CartImage = styled.div<{ imageUrl: string }>`
     width: 100%;
     height: 85%;
     background-position: center;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-image: ${({ imageUrl }) => `url(${imageUrl})`};
     border-radius: 0.2rem;
 `;

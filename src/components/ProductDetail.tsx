@@ -27,7 +27,7 @@ const ProductDetail = ({ match, history, addToCart, user }) => {
             <img src={product.imageUrl} alt="Image Products" />
             <DescriptionContainer>
                 <h1 className="title">{product.title}</h1>
-                <p className="price">{formatPrice(Number(product.price))} $</p>
+                <p className="price">{formatPrice(Number(product.price))}</p>
                 <p className="description">
                     {`Tofu hoodie pop-up try-hard vice cornhole gluten-free keytar mlkshk
           8-bit small batch four loko letterpress. Yr cornhole hoodie tote bag

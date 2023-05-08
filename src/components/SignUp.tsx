@@ -56,7 +56,7 @@ const SignUp = ({ signUpStart }) => {
                     isRequired={true}
                 />
                 <FormInput
-                    type="email"
+                    type="text"
                     name="email"
                     value={values.email}
                     handleChange={handleInputChange}
