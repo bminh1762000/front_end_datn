@@ -11,27 +11,42 @@ const getCartItemsApi = async (token: string) => {
 };
 
 const addCartItemApi = async (itemId: string, token: string) => {
-    return callHttpClientMethod(`/api/shop/collection/add/${itemId}`, HTTP_METHOD.put, null, {
-        headers: {
-            Authorization: 'Bearer ' + token,
-        },
-    });
+    return callHttpClientMethod(
+        `/api/shop/collection/add`,
+        HTTP_METHOD.post,
+        { collectionId: itemId },
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        }
+    );
 };
 
 const removeItemFromCartApi = async (itemId: string, token: string) => {
-    return callHttpClientMethod(`/api/shop/collection/remove/${itemId}`, HTTP_METHOD.put, null, {
-        headers: {
-            Authorization: 'Bearer ' + token,
-        },
-    });
+    return callHttpClientMethod(
+        `/api/shop/collection/remove`,
+        HTTP_METHOD.post,
+        { collectionId: itemId },
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        }
+    );
 };
 
 const clearItemFromCartApi = async (itemId: string, token: string) => {
-    return callHttpClientMethod(`/api/shop/collection/${itemId}`, HTTP_METHOD.delete, null, {
-        headers: {
-            Authorization: 'Bearer ' + token,
-        },
-    });
+    return callHttpClientMethod(
+        `/api/shop/collection/delete`,
+        HTTP_METHOD.post,
+        { collectionId: itemId },
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        }
+    );
 };
 
 export { getCartItemsApi, addCartItemApi, removeItemFromCartApi, clearItemFromCartApi };

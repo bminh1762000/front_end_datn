@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import CartIcon from './CartIcon';
 import CartDropdown from './CartDropdown';
 import { FaBuffer as Logo } from 'react-icons/fa';
+import { FiUser } from 'react-icons/fi';
 
 const isActive = (history, path) => {
     return history.location.pathname === path ? { color: '#f1c40f' } : { color: '#2c3e50' };
@@ -18,11 +19,10 @@ type Props = {
     history: any;
     user: any;
     changeFilter: () => void;
-    logOut: () => void;
     hidden: boolean;
 };
 
-const Header = ({ history, user, hidden, changeFilter, logOut }: Props) => {
+const Header = ({ history, user, hidden, changeFilter }: Props) => {
     const [searchText, setSearchText] = useState('');
     return (
         <HeaderContainer>
@@ -41,17 +41,15 @@ const Header = ({ history, user, hidden, changeFilter, logOut }: Props) => {
                         Giới thiệu
                     </OptionLink>
                     {user.userId ? (
-                        <OptionLink as="div" onClick={() => logOut()}>
-                            Đăng xuất
+                        <OptionLink to="/profile">
+                            <FiUser size={20} />
                         </OptionLink>
                     ) : (
                         <OptionLink to="/login" style={isActive(history, '/login')}>
                             Đăng nhập
                         </OptionLink>
                     )}
-                    <OptionLink to="/cart">
-                        <CartIcon />
-                    </OptionLink>
+                    <CartIcon />
                     {hidden ? null : <CartDropdown />}
                 </>
                 <SearchContainer>

@@ -10,6 +10,7 @@ import Header from './components/Header';
 import { default as Spinners } from './components/Spinner';
 import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/Footer';
+import Loading from './components/Loading';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const CheckoutPage = lazy(() => import('./pages/Checkout'));
@@ -23,13 +24,14 @@ const ProfilePage = lazy(() => import('./pages/Profile'));
 
 import './App.scss';
 
-const App = ({ currentUser, checkUserSession }) => {
+const App = ({ currentUser, checkUserSession, loading }) => {
     useEffect(() => {
         checkUserSession();
     }, [checkUserSession]);
 
     return (
         <div className="App">
+            {loading && <Loading />}
             <Header />
             <div className="main">
                 <Suspense fallback={<Spinners />}>
@@ -41,7 +43,7 @@ const App = ({ currentUser, checkUserSession }) => {
                         <Route exact path="/about" component={AboutPage} />
                         <Route path="/products" component={ProductPage} />
                         <Route exact path="/login" render={() => (currentUser ? <Redirect to="/" /> : <LoginPage />)} />
-                        <PrivateRoute exact path="/profile" isAuthenticated={currentUser} component={ProfilePage} />
+                        <PrivateRoute path="/profile" isAuthenticated={currentUser} component={ProfilePage} />
                         <Route exact path="/signup" component={SignUpPage} />
                         <Route exact path="/forgot-password" component={ForgotPasswordPage} />
                         <Route component={HomePage} />
@@ -55,6 +57,7 @@ const App = ({ currentUser, checkUserSession }) => {
 
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
+    loading: (state) => state.loading.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

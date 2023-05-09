@@ -17,12 +17,12 @@ const CheckoutItem = ({ cartItem, removeItem, addItem, clearItem, token }) => {
             </ItemImageContainer>
             <TextContainer>{name}</TextContainer>
             <QuantityContainer>
-                <div onClick={() => removeItem({ _id, token })}>&#10094;</div>
+                <div onClick={() => removeItem({ itemId: _id, token })}>&#10094;</div>
                 <span>{quantity}</span>
-                <div onClick={() => addItem({ _id, token })}>&#10095;</div>
+                <div onClick={() => addItem({ itemId: _id, token })}>&#10095;</div>
             </QuantityContainer>
             <TextContainer>${price}</TextContainer>
-            <RemoveButtonContainer onClick={() => clearItem({ _id, token })}>&#10005;</RemoveButtonContainer>
+            <RemoveButtonContainer onClick={() => clearItem({ itemId: _id, token })}>&#10005;</RemoveButtonContainer>
         </CheckoutItemContainer>
     );
 };
@@ -31,9 +31,8 @@ const CheckoutItemContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 20px 0;
+    align-items: center;
     border-bottom: 1px solid grey;
-    min-height: 100px;
     font-size: 20px;
 `;
 

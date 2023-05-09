@@ -7,17 +7,6 @@ const UserInfo = () => {
     const logOut = () => {
         dispatch(signOutStart());
     };
-    //   const profile = useSelector((state: StateType) => state.auth.user);
-    //   const logOut = () => {
-    //     dispatch({
-    //       type: "@saga/Logout",
-    //       payload: {
-    //         logoutSuccess: (status: boolean) => {
-    //           if (status) navigate("/login");
-    //         },
-    //       },
-    //     });
-    //   };
     return (
         <main>
             <section className="view_profile">
@@ -40,7 +29,7 @@ const UserInfo = () => {
                                             className="btn btn-primary ms-1 btn-logout"
                                             onClick={logOut}
                                         >
-                                            Log out
+                                            Đăng xuất
                                         </button>
                                     </div>
                                 </div>

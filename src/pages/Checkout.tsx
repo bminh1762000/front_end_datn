@@ -6,7 +6,7 @@ import { selectorCartItems, selectCartTotal } from '../redux/cart/cart.selectors
 import CheckoutItem from '../components/CheckoutItem';
 
 import styled from 'styled-components';
-import StripeCheckoutButton from '../components/StripeButton';
+import { formatPrice } from '../utils/product';
 
 const CheckoutPage = ({ cartItems, total }) => (
     <CheckoutPageContainer>
@@ -30,13 +30,7 @@ const CheckoutPage = ({ cartItems, total }) => (
         {cartItems.map((cartItem) => (
             <CheckoutItem key={cartItem._id} cartItem={cartItem} />
         ))}
-        <TotalSection>TOTAL: ${total}</TotalSection>
-        <TextWarning>
-            *Please use the following test credit card for payment*
-            <br />
-            4242 4242 4242 4242 - Exp: 01/20 - CVV: 123
-        </TextWarning>
-        <StripeButton price={total} />
+        <TotalSection>Tổng tiền: {formatPrice(total)}</TotalSection>
     </CheckoutPageContainer>
 );
 
@@ -63,11 +57,8 @@ const CheckoutHeaderContainer = styled.div`
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid darkgrey;
-
-    @media screen and (max-width: 800px) {
-        padding: 0;
-    }
 `;
 
 const HeaderBlockContainer = styled.div`
@@ -92,27 +83,7 @@ const HeaderBlockContainer = styled.div`
 const TotalSection = styled.div`
     margin-top: 30px;
     margin-left: auto;
-    font-size: 36px;
-
-    @media screen and (max-width: 800px) {
-        font-size: 26px;
-    }
-`;
-
-const StripeButton = styled(StripeCheckoutButton)`
-    margin-left: auto;
-    margin-top: 40px;
-`;
-
-const TextWarning = styled.div`
-    text-align: center;
-    margin-top: 40px;
-    font-size: 24px;
-    color: red;
-
-    @media screen and (max-width: 800px) {
-        font-size: 20px;
-    }
+    font-size: 16px;
 `;
 
 export default connect(mapStateToProps)(CheckoutPage);

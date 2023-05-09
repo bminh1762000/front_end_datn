@@ -16,9 +16,11 @@ import { fetchCartStart } from '../cart/cart.actions';
 import { loginApi, signUpApi } from '../../service/user';
 
 import UserActionTypes from './user.types';
+import { loadingEnd, loadingStart } from '../loading/loading.actions';
 
 function* signWithEmailPassword({ payload: { email, password } }: any) {
     try {
+        yield put(loadingStart());
         const response = yield call(loginApi, email, password);
         yield localStorage.setItem('token', response.token);
         yield localStorage.setItem('userId', response.userId);
@@ -26,25 +28,33 @@ function* signWithEmailPassword({ payload: { email, password } }: any) {
         yield put(fetchCartStart(response.token));
     } catch (error) {
         yield put(signInFailure(error));
+    } finally {
+        yield put(loadingEnd());
     }
 }
 
 function* signOut() {
     try {
+        yield put(loadingStart());
         yield localStorage.removeItem('token');
         yield localStorage.removeItem('userId');
         yield put(signOutSuccess());
     } catch (error) {
         yield put(signOutFailure(error));
+    } finally {
+        yield put(loadingEnd());
     }
 }
 
 function* signUp({ payload: { email, password, displayName } }: any) {
     try {
+        yield put(loadingStart());
         const response = yield call(signUpApi, email, password, displayName);
         yield put(signUpSuccess({ email: response.email, password: response.password }));
     } catch (error) {
         yield put(signUpFailure(error));
+    } finally {
+        yield put(loadingEnd());
     }
 }
 

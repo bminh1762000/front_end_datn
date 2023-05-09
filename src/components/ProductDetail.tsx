@@ -5,6 +5,8 @@ import Button from './Button';
 import styled from 'styled-components';
 import { getProductDetailApi } from '../service/product';
 import { formatPrice } from '../utils/product';
+import { addItemStart } from '../redux/cart/cart.actions';
+import { connect } from 'react-redux';
 
 const ProductDetail = ({ match, history, addToCart, user }) => {
     const [product, setProduct] = useState(null);
@@ -41,7 +43,9 @@ const ProductDetail = ({ match, history, addToCart, user }) => {
           keffiyeh. Tofu seitan mlkshk, try-hard cray hella PBR&B kale chips
           bushwick umami salvia knausgaard four loko pork belly semiotics.`}
                 </p>
-                <Button onClick={() => (user.userId ? addToCart(product) : history.push('/login'))}>Add to cart</Button>
+                <Button onClick={() => (user.userId ? addToCart(product._id, user.token) : history.push('/login'))}>
+                    Add to cart
+                </Button>
             </DescriptionContainer>
         </ProductDetailContainer>
     );
@@ -79,4 +83,12 @@ const DescriptionContainer = styled.div`
     }
 `;
 
-export default ProductDetail;
+const mapStateToProps = (state) => ({
+    user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    addToCart: (itemId, token) => dispatch(addItemStart({ itemId, token })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);
