@@ -36,7 +36,7 @@ const SignIn = ({ emailSignInStart }) => {
 
     return (
         <SignInContainer>
-            <h2>Tôi đã có tài khoản</h2>
+            <h2>Đăng nhập</h2>
 
             <div className="form-login">
                 <FormInput

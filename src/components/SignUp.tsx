@@ -42,8 +42,7 @@ const SignUp = ({ signUpStart }) => {
 
     return (
         <SignUpContainer>
-            <h2>Tôi chưa có tài khoản</h2>
-            <span>Đăng ký tài khoản với email và mật khẩu</span>
+            <h2>Đăng ký</h2>
             <form className="sign-up-form" onSubmit={handleSubmit}>
                 <FormInput
                     type="text"
@@ -99,7 +98,7 @@ const SignUpContainer = styled.div`
     width: 100%;
 
     h2 {
-        margin: 10px 0;
+        margin: 10px auto;
     }
 
     .btn-signup {
