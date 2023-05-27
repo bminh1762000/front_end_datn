@@ -15,6 +15,7 @@ pipeline {
         stage('Formatting') {
             steps {
                 nodejs ('Nodejs_18.12.0'){
+                    sh 'yarn install'
                     sh 'yarn format'
                 }
             }
@@ -22,7 +23,6 @@ pipeline {
         stage('SAST') {
             steps {
                 nodejs ('Nodejs_18.12.0'){
-                    sh 'yarn install'
                     sh 'yarn lint'
                 }
             }
