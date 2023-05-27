@@ -35,7 +35,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker-compose build'
+                sh 'docker build . -t shop-app/node:v1'
             }
         }
         stage('Deploy') {
