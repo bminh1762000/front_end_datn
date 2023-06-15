@@ -27,28 +27,43 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
-            when {
-                expression {
-                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    return env.GIT_BRANCH == 'origin/master'
-                }
-            }
+        // stage('Build') {
+        //     when {
+        //         expression {
+        //             GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        //             return env.GIT_BRANCH == 'origin/master'
+        //         }
+        //     }
+        //     steps {
+        //         sh 'docker-compose build'
+        //     }
+        // }
+        stage('Code Quality Check via SonarQube') {
             steps {
-                sh 'docker-compose build'
+                script {
+                    def scannerHome = tool 'sonarqube';
+                    withSonarQubeEnv("sonarqube-container") {
+                        sh "${tool("sonarqube")}/bin/sonar-scanner \
+                        -Dsonar.projectKey=sonarqube-react-project \
+                        -Dsonar.sources=. \
+                        -Dsonar.css.node=. \
+                        -Dsonar.host.url=http://192.168.31.189:9000/ \
+                        -Dsonar.login=sqp_08d68b6cad3e519a53a834267a80325bcdfd08af"
+                    }
+                 }
             }
         }
-        stage('Deploy') {
-            when {
-                expression {
-                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    return env.GIT_BRANCH == 'origin/master'
-                }
-            }
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
+        // stage('Deploy') {
+        //     when {
+        //         expression {
+        //             GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        //             return env.GIT_BRANCH == 'origin/master'
+        //         }
+        //     }
+        //     steps {
+        //         sh 'docker-compose up -d'
+        //     }
+        // }
     }
     post {
         always {
