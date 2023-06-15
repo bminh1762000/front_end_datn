@@ -36,8 +36,8 @@ pipeline {
                         -Dsonar.projectKey=sonarqube-react-project \
                         -Dsonar.sources=. \
                         -Dsonar.css.node=. \
-                        -Dsonar.host.url=http://192.168.31.189:9000/ \
-                        -Dsonar.login=sqp_08d68b6cad3e519a53a834267a80325bcdfd08af"
+                        -Dsonar.host.url=http://192.168.31.189:9000 \
+                        -Dsonar.token=sqp_08d68b6cad3e519a53a834267a80325bcdfd08af"
                     }
                  }
             }
