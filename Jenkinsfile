@@ -41,7 +41,7 @@ pipeline {
         stage('Code Quality Check via SonarQube') {
             steps {
                 script {
-                    def scannerHome = tool 'sonarqube';
+                    def scannerHome = tool 'sonarqubeccanner';
                     withSonarQubeEnv("sonarqube-container") {
                         sh "${tool("sonarqube")}/bin/sonar-scanner \
                         -Dsonar.projectKey=sonarqube-react-project \
