@@ -27,17 +27,6 @@ pipeline {
                 }
             }
         }
-        // stage('Build') {
-        //     when {
-        //         expression {
-        //             GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-        //             return env.GIT_BRANCH == 'origin/master'
-        //         }
-        //     }
-        //     steps {
-        //         sh 'docker-compose build'
-        //     }
-        // }
         stage('Code Quality Check via SonarQube') {
             steps {
                 script {
@@ -53,6 +42,23 @@ pipeline {
                  }
             }
         }
+        stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+        // stage('Build') {
+        //     when {
+        //         expression {
+        //             GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        //             return env.GIT_BRANCH == 'origin/master'
+        //         }
+        //     }
+        //     steps {
+        //         sh 'docker-compose build'
+        //     }
+        // }
+
         // stage('Deploy') {
         //     when {
         //         expression {
