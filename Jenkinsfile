@@ -47,29 +47,30 @@ pipeline {
                 waitForQualityGate abortPipeline: true
             }
         }
-        // stage('Build') {
-        //     when {
-        //         expression {
-        //             GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-        //             return env.GIT_BRANCH == 'origin/master'
-        //         }
-        //     }
-        //     steps {
-        //         sh 'docker-compose build'
-        //     }
-        // }
 
-        // stage('Deploy') {
-        //     when {
-        //         expression {
-        //             GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-        //             return env.GIT_BRANCH == 'origin/master'
-        //         }
-        //     }
-        //     steps {
-        //         sh 'docker-compose up -d'
-        //     }
-        // }
+        stage('Build') {
+            when {
+                expression {
+                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return env.GIT_BRANCH == 'origin/master'
+                }
+            }
+            steps {
+                sh 'docker-compose build'
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                expression {
+                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return env.GIT_BRANCH == 'origin/master'
+                }
+            }
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
     }
     post {
         always {
