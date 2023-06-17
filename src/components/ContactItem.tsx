@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import FormInput from './FormInput';
 import Button from './Button';
@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 import styled from 'styled-components';
 
 const Contact = () => {
-    const [name] = useState('');
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -17,7 +16,9 @@ const Contact = () => {
             message: '',
         },
         onSubmit: (values) => {
-            // Send email
+            if (!values) {
+                return;
+            }
         },
         validationSchema: Yup.object({
             name: Yup.string()

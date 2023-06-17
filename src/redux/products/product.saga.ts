@@ -1,8 +1,6 @@
 import { takeLatest, put, all, call } from 'redux-saga/effects';
 
-import { ActionTypes } from '.';
-
-import { fetchProductsSuccess, fetchProductsFailure } from '.';
+import { fetchProductsSuccess, fetchProductsFailure, ActionTypes } from '.';
 
 import { getProductsApi } from '../../service/product';
 import { loadingEnd, loadingStart } from '../loading/loading.actions';
