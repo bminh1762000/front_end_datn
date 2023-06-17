@@ -1,105 +1,72 @@
 import React, { useState } from 'react';
 
 import FormInput from './FormInput';
-import CustomButton from './CustomButton';
-import { required, isEmail, length } from '../utils/validation';
+import Button from './Button';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import styled from 'styled-components';
 
 const Contact = () => {
-    const initialValues = {
-        contactForm: {
-            name: {
-                value: '',
-                valid: true,
-                validators: [required, length({ min: 3 })],
-            },
-            email: {
-                value: '',
-                valid: true,
-                validators: [required, isEmail],
-            },
-            subject: {
-                value: '',
-                valid: true,
-                validators: [required],
-            },
-            message: {
-                value: '',
-                valid: true,
-                validators: [required],
-            },
+    const [name] = useState('');
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
         },
-        formValid: false,
-    };
+        onSubmit: (values) => {
+            // Send email
+        },
+        validationSchema: Yup.object({
+            name: Yup.string()
+                .min(3, 'Must be 3 characters or more')
+                .max(15, 'Must be 15 characters or less')
+                .required('Required'),
+            email: Yup.string().email('Invalid email address').required('Required'),
+            subject: Yup.string().required('Required'),
+        }),
+    });
 
-    const [values, setValues] = useState(initialValues);
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        let isValid = true;
-        for (const validator of values.contactForm[name].validators) {
-            isValid = isValid && validator(value);
-        }
-        const updatedForm = {
-            ...values.contactForm,
-            [name]: {
-                ...values.contactForm[name],
-                valid: isValid,
-            },
-        };
-        let isValidForm = true;
-        for (const inputName in values.contactForm) {
-            isValidForm = isValidForm && values.contactForm[inputName].valid;
-        }
-        setValues({ contactForm: updatedForm, formValid: isValidForm });
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setValues(initialValues);
-    };
+    const { values, errors, touched, handleChange, handleSubmit } = formik;
 
     return (
         <ContactFormContainer>
-            <h1>Contact Us</h1>
-            <p>Get in touch and let us know how we can help.</p>
-            <form onSubmit={handleSubmit} action="mailto:tunho176@gmail.com" method="POST" encType="text/plain">
+            <h1>Liên hệ với chúng tôi</h1>
+            <form>
                 <FormInput
                     name="name"
                     type="text"
-                    handleChange={handleChange}
-                    value={values.contactForm.name.value}
-                    label="Name"
-                    isValid={values.contactForm.name.valid}
+                    handleChange={handleChange('name')}
+                    value={values.name}
+                    label="Tên"
+                    isValid={!(!!errors.name && touched.name)}
                 />
                 <FormInput
                     name="email"
                     type="email"
-                    handleChange={handleChange}
-                    value={values.contactForm.email.value}
+                    handleChange={handleChange('email')}
+                    value={values.email}
                     label="Email"
-                    isValid={values.contactForm.email.valid}
+                    isValid={!(!!errors.email && touched.email)}
                 />
                 <FormInput
                     name="subject"
                     type="text"
-                    handleChange={handleChange}
-                    value={values.contactForm.subject.value}
-                    label="Subject"
-                    isValid={values.contactForm.subject.valid}
+                    handleChange={handleChange('subject')}
+                    value={values.subject}
+                    label="Tiêu đề"
+                    isValid={!(!!errors.subject && touched.subject)}
                 />
                 <MessageContainer>
-                    <label htmlFor="message">Message</label>
-                    <textarea
-                        name="message"
-                        value={values.contactForm.message.value}
-                        onChange={handleChange}
-                        rows={5}
-                    />
+                    <label htmlFor="message">Nội dung</label>
+                    <textarea name="message" value={values.message} onChange={handleChange('message')} rows={5} />
                 </MessageContainer>
                 <ButtonSubmitContainer>
-                    <CustomButton type="submit">Send Email</CustomButton>
+                    <Button type="button" onClick={handleSubmit}>
+                        Send Email
+                    </Button>
                 </ButtonSubmitContainer>
             </form>
         </ContactFormContainer>
