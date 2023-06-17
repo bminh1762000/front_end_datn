@@ -75,8 +75,6 @@ const Footer = () => {
     );
 };
 
-<style></style>;
-
 const FooterContainer = styled.div`
     min-height: 50px;
     flex-shrink: 0;
