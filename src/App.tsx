@@ -21,6 +21,8 @@ const AboutPage = lazy(() => import('./pages/About'));
 const ProductPage = lazy(() => import('./pages/Product'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPassword'));
 const ProfilePage = lazy(() => import('./pages/Profile'));
+const OrderPage = lazy(() => import('./pages/Order'));
+const ListOrder = lazy(() => import('./pages/ListOrder'));
 
 import './App.scss';
 
@@ -46,6 +48,8 @@ const App = ({ currentUser, checkUserSession, loading }) => {
                         <PrivateRoute path="/profile" isAuthenticated={currentUser} component={ProfilePage} />
                         <Route exact path="/signup" component={SignUpPage} />
                         <Route exact path="/forgot-password" component={ForgotPasswordPage} />
+                        <PrivateRoute exact path="/place-order" isAuthenticated={currentUser} component={OrderPage} />
+                        <PrivateRoute exact path="/orders" isAuthenticated={currentUser} component={ListOrder} />
                         <Route component={HomePage} />
                     </Switch>
                 </Suspense>
