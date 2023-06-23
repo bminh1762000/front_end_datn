@@ -14,45 +14,7 @@ const ProductList = ({ loading, page, lastPage, products, filter, changePage, fe
     const [newProduct, setNewProduct] = useState([]);
     const [_lastPage, _setLastPage] = useState(lastPage);
 
-    useEffect(() => {
-        fetchProductsStart();
-    }, []);
-
-    useEffect(() => {
-        if (products.length === 0) return;
-        let newProducts = products.slice();
-        const { category, price, shipping, search, sort } = filter;
-        if (category !== 'all') {
-            newProducts = newProducts.filter((p) => p.category === category);
-        }
-        if (shipping) {
-            newProducts = newProducts.filter((p) => p.ship === shipping);
-        }
-        if (price !== 'all') {
-            newProducts = newProducts.filter((p) => {
-                if (Number(price) === 0) {
-                    return Number(p.price) <= 15000000 && Number(p.price) >= 10000000;
-                } else if (Number(price) === 15000000) {
-                    return Number(p.price) <= 20000000 && Number(p.price) >= 15000000;
-                } else {
-                    return Number(p.price) >= 20000000;
-                }
-            });
-        }
-        if (search !== '') {
-            newProducts = newProducts.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
-        }
-        if (sort === 'asc') {
-            newProducts = newProducts.sort((a, b) => Number(a.price) - Number(b.price));
-        }
-        if (sort === 'desc') {
-            newProducts = newProducts.sort((a, b) => Number(b.price) - Number(a.price));
-        }
-        const newProduct = paginate(newProducts, page);
-        setNewProduct(newProduct);
-    }, [page, products.length]);
-
-    useEffect(() => {
+    const filterProducts = (products, filter, page) => {
         let newProducts = products.slice();
         const { category, price, shipping, search, sort } = filter;
         if (category !== 'all') {
@@ -82,6 +44,22 @@ const ProductList = ({ loading, page, lastPage, products, filter, changePage, fe
             newProducts = newProducts.sort((a, b) => Number(b.price) - Number(a.price));
         }
         const newProduct = paginate(newProducts, page);
+        return { newProduct, newProducts };
+    };
+
+    useEffect(() => {
+        fetchProductsStart();
+    }, []);
+
+    useEffect(() => {
+        if (products.length === 0) return;
+        const { newProduct } = filterProducts(products, filter, page);
+        setNewProduct(newProduct);
+    }, [page, products.length]);
+
+    useEffect(() => {
+        if (products.length === 0) return;
+        const { newProduct, newProducts } = filterProducts(products, filter, 1);
         changePage(1);
         _setLastPage(Math.ceil(newProducts.length / 4));
         setNewProduct(newProduct);
