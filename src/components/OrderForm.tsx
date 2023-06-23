@@ -1,11 +1,11 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import FormInput from './FormInput';
 import { selectorCartItems } from '../redux/cart/cart.selectors';
 import { selectTokenId } from '../redux/user/user.selectors';
 import CustomButton from './CustomButton';
 import { createOrderStart } from '../redux/order/order.actions';
+import { OrderSchema } from '../utils/validation/order';
 
 import './OrderForm.scss';
 import { connect } from 'react-redux';
@@ -20,12 +20,7 @@ const OrderForm = ({ cartItems, createOrder, history, tokenId }) => {
             phone: '',
             email: '',
         },
-        validationSchema: Yup.object().shape({
-            name: Yup.string().required('Trường bắt buộc.'),
-            address: Yup.string().required('Trường bắt buộc.'),
-            phone: Yup.string().required('Trường bắt buộc.'),
-            email: Yup.string().email('Invalid email address').required('Trường bắt buộc.'),
-        }),
+        validationSchema: OrderSchema,
         onSubmit: async (values) => {
             await createOrder({ products: cartItems, ...values }, tokenId);
             history.push('/orders');

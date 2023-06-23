@@ -7,20 +7,23 @@ import * as Yup from 'yup';
 import { forgotPasswordApi, resetPasswordApi } from '../service/user';
 import FormInput from './FormInput';
 
+const EmailSchema = Yup.object().shape({
+    email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
+});
+
+const OTPSchema = Yup.object().shape({
+    code: Yup.string().required('Mã xác nhận không được để trống'),
+});
+
 const ForgotPassword = ({ history }) => {
     const [step, setStep] = useState(1); // [1, 2, 3]
 
     const chooseSchemeValidate = () => {
         switch (step) {
             case 0:
-                return Yup.object().shape({
-                    email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
-                });
-
+                return EmailSchema;
             case 1:
-                return Yup.object().shape({
-                    code: Yup.string().required('Mã xác nhận không được để trống'),
-                });
+                return OTPSchema;
         }
     };
 

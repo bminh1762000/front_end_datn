@@ -78,8 +78,7 @@
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "npm run lint",
-      "npm run format",
-      "git add"
+      "npm run format"
     ]
   },
   "browserslist": {
