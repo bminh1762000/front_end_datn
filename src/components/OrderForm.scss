@@ -1,8 +1,24 @@
+$box-border: 2px solid #ebebeb;
+$box-padding: 40px;
+$text-font-size: 12px;
+$text-transform: uppercase;
+$text-font-weight: 600;
+
+@mixin box {
+    border: $box-border;
+    padding: $box-padding;
+}
+
+@mixin text {
+    font-size: $text-font-size;
+    text-transform: $text-transform;
+    font-weight: $text-font-weight;
+}
+
 .checkout_area {
     .order-details-confirmation {
         width: 100%;
-        border: 2px solid #ebebeb;
-        padding: 40px;
+        @include box;
         .order-details-form {
             padding: 0;
             li {
@@ -10,11 +26,10 @@
                 align-items: center;
                 justify-content: space-between;
                 margin-bottom: 0;
-                font-size: 12px;
-                text-transform: uppercase;
+                @include text;
                 padding: 20px 0;
-                border-bottom: 2px solid #ebebeb;
-                font-weight: 600;
+                border-bottom: $box-border;
+                font-weight: $text-font-weight;
 
                 &:last-child {
                     font-weight: 700;

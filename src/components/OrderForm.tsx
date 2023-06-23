@@ -34,7 +34,7 @@ const OrderForm = ({ cartItems, createOrder, history, tokenId }) => {
         setValues({ ...values, [name]: value });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         submitForm();
     };
 
@@ -119,14 +119,11 @@ const OrderForm = ({ cartItems, createOrder, history, tokenId }) => {
                                 </li>
                                 {cartItems.map((cartItem) => {
                                     const price = cartItem.product.price * cartItem.quantity;
-                                    const formatPrice = new Intl.NumberFormat('vi-VN', {
-                                        style: 'currency',
-                                        currency: 'VND',
-                                    }).format(price);
+                                    const formattedPrice = formatPrice(price);
 
                                     return (
                                         <li key={cartItem._id}>
-                                            <span>{cartItem.product.title}</span> <span>{formatPrice}</span>
+                                            <span>{cartItem.product.title}</span> <span>{formattedPrice}</span>
                                         </li>
                                     );
                                 })}
