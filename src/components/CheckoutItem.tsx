@@ -7,21 +7,22 @@ import styled from 'styled-components';
 
 const CheckoutItem = ({ cartItem, removeItem, addItem, clearItem, token }) => {
     const {
-        product: { imageUrl, name, price, _id },
+        product: { imageUrl, title, price, _id },
         quantity,
     } = cartItem;
+    const priceItem = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
     return (
         <CheckoutItemContainer>
             <ItemImageContainer>
                 <img src={imageUrl} alt="items" />
             </ItemImageContainer>
-            <TextContainer>{name}</TextContainer>
+            <TextContainer>{title}</TextContainer>
             <QuantityContainer>
                 <div onClick={() => removeItem({ itemId: _id, token })}>&#10094;</div>
                 <span>{quantity}</span>
                 <div onClick={() => addItem({ itemId: _id, token })}>&#10095;</div>
             </QuantityContainer>
-            <TextContainer>${price}</TextContainer>
+            <TextContainer>{priceItem}</TextContainer>
             <RemoveButtonContainer onClick={() => clearItem({ itemId: _id, token })}>&#10005;</RemoveButtonContainer>
         </CheckoutItemContainer>
     );
@@ -33,11 +34,11 @@ const CheckoutItemContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid grey;
-    font-size: 20px;
+    font-size: 15px;
 `;
 
 const ItemImageContainer = styled.div`
-    width: 23%;
+    flex: 0 0 22%;
     padding-right: 20px;
 
     img {
@@ -47,12 +48,12 @@ const ItemImageContainer = styled.div`
 `;
 
 const TextContainer = styled.span`
-    width: 23%;
+    flex: 0 0 22%;
 `;
 
 const QuantityContainer = styled(TextContainer)`
     display: flex;
-
+    flex: 0 0 22%;
     span {
         margin: 0 10px;
     }
@@ -63,6 +64,7 @@ const QuantityContainer = styled(TextContainer)`
 `;
 
 const RemoveButtonContainer = styled.div`
+    flex: 0 0 5%;
     padding-left: 12px;
     cursor: pointer;
 `;

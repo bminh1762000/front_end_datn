@@ -67,3 +67,17 @@ export const fetchCartFailure = (error) => ({
     type: CartActionTypes.FETCH_CART_FAILURE,
     payload: error,
 });
+
+export const clearCartStart = (token) => ({
+    type: CartActionTypes.CLEAR_CART_START,
+    payload: token,
+});
+
+export const clearCartSuccess = () => ({
+    type: CartActionTypes.CLEAR_CART_SUCCESS,
+});
+
+export const clearCartFailure = (error) => ({
+    type: CartActionTypes.CLEAR_CART_FAILURE,
+    payload: error,
+});

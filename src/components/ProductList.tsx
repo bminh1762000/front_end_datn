@@ -20,9 +20,37 @@ const ProductList = ({ loading, page, lastPage, products, filter, changePage, fe
 
     useEffect(() => {
         if (products.length === 0) return;
-        const newProduct = paginate(products, page);
+        let newProducts = products.slice();
+        const { category, price, shipping, search, sort } = filter;
+        if (category !== 'all') {
+            newProducts = newProducts.filter((p) => p.category === category);
+        }
+        if (shipping) {
+            newProducts = newProducts.filter((p) => p.ship === shipping);
+        }
+        if (price !== 'all') {
+            newProducts = newProducts.filter((p) => {
+                if (Number(price) === 0) {
+                    return Number(p.price) <= 15000000 && Number(p.price) >= 10000000;
+                } else if (Number(price) === 15000000) {
+                    return Number(p.price) <= 20000000 && Number(p.price) >= 15000000;
+                } else {
+                    return Number(p.price) >= 20000000;
+                }
+            });
+        }
+        if (search !== '') {
+            newProducts = newProducts.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
+        }
+        if (sort === 'asc') {
+            newProducts = newProducts.sort((a, b) => Number(a.price) - Number(b.price));
+        }
+        if (sort === 'desc') {
+            newProducts = newProducts.sort((a, b) => Number(b.price) - Number(a.price));
+        }
+        const newProduct = paginate(newProducts, page);
         setNewProduct(newProduct);
-    }, [products, page]);
+    }, [page, products.length]);
 
     useEffect(() => {
         let newProducts = products.slice();
@@ -35,12 +63,12 @@ const ProductList = ({ loading, page, lastPage, products, filter, changePage, fe
         }
         if (price !== 'all') {
             newProducts = newProducts.filter((p) => {
-                if (price === 0) {
-                    return p.price < 15000000 && p.price >= 10000000;
-                } else if (price === 10000000) {
-                    return p.price < 10000000 && p.price >= 15000000;
+                if (Number(price) === 0) {
+                    return Number(p.price) < 15000000 && Number(p.price) >= 10000000;
+                } else if (Number(price) === 15000000) {
+                    return Number(p.price) < 20000000 && Number(p.price) >= 15000000;
                 } else {
-                    return p.price >= 20000000;
+                    return Number(p.price) >= 20000000;
                 }
             });
         }
@@ -57,7 +85,7 @@ const ProductList = ({ loading, page, lastPage, products, filter, changePage, fe
         changePage(1);
         _setLastPage(Math.ceil(newProducts.length / 4));
         setNewProduct(newProduct);
-    }, [filter, products]);
+    }, [filter, products.length]);
 
     if (loading) {
         return <h1>Loading ....</h1>;

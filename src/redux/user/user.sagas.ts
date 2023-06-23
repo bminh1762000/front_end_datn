@@ -9,11 +9,14 @@ import {
     signUpFailure,
     checkUserSessionSuccess,
     checkUserSessionFailure,
+    getUserInfoFailure,
+    getUserInfoSuccess,
+    getUserInfoStart,
 } from './user.actions';
 
 import { fetchCartStart } from '../cart/cart.actions';
 
-import { loginApi, signUpApi } from '../../service/user';
+import { loginApi, signUpApi, getUserInfoApi } from '../../service/user';
 
 import UserActionTypes from './user.types';
 import { loadingEnd, loadingStart } from '../loading/loading.actions';
@@ -25,9 +28,10 @@ function* signWithEmailPassword({ payload: { email, password } }: any) {
         yield localStorage.setItem('token', response.token);
         yield localStorage.setItem('userId', response.userId);
         yield put(signInSuccess({ ...response }));
+        yield put(getUserInfoStart(response.token));
         yield put(fetchCartStart(response.token));
     } catch (error) {
-        yield put(signInFailure(error));
+        yield put(signInFailure(error.response.data));
     } finally {
         yield put(loadingEnd());
     }
@@ -58,6 +62,18 @@ function* signUp({ payload: { email, password, displayName } }: any) {
     }
 }
 
+function* getUserInfo({ payload }: any) {
+    try {
+        yield put(loadingStart());
+        const response = yield call(getUserInfoApi, payload);
+        yield put(getUserInfoSuccess(response.user));
+    } catch (error) {
+        yield put(getUserInfoFailure(error));
+    } finally {
+        yield put(loadingEnd());
+    }
+}
+
 function* isUserAuth() {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
@@ -65,6 +81,7 @@ function* isUserAuth() {
         yield put(checkUserSessionFailure());
     } else {
         yield put(checkUserSessionSuccess({ userId, token }));
+        yield put(getUserInfoStart(token));
         yield put(fetchCartStart(token));
     }
 }
@@ -89,6 +106,10 @@ function* onCheckUserSession() {
     yield takeLatest(UserActionTypes.CHECK_USER_SESSION_START, isUserAuth);
 }
 
+function* onGetUserInfo() {
+    yield takeLatest(UserActionTypes.GET_USER_INFO_START, getUserInfo);
+}
+
 export function* userSagas() {
     yield all([
         call(onEmailSignInStart),
@@ -96,5 +117,6 @@ export function* userSagas() {
         call(onSignUpStart),
         call(onSignUpSuccess),
         call(onCheckUserSession),
+        call(onGetUserInfo),
     ]);
 }

@@ -2,12 +2,14 @@ export const ActionTypes = {
     FETCH_PRODUCTS_START: 'FETCH_PRODUCTS_START',
     FETCH_PRODUCTS_SUCCESS: 'FETCH_PRODUCTS_SUCCESS',
     FETCH_PRODUCTS_FAILURE: 'FETCH_PRODUCTS_FAILURE',
+    GET_PRODUCT_DETAIL_START: 'GET_PRODUCT_DETAIL_START',
+    GET_PRODUCT_DETAIL_SUCCESS: 'GET_PRODUCT_DETAIL_SUCCESS',
+    GET_PRODUCT_DETAIL_FAILURE: 'GET_PRODUCT_DETAIL_FAILURE',
     UPDATE_FILTER: 'UPDATE_FILTER',
     CHANGE_PAGE: 'CHANGE_PAGE',
 };
 
 const INITIAL_STATE = {
-    loading: false,
     products: [],
     filter: {
         category: 'all',
@@ -18,6 +20,7 @@ const INITIAL_STATE = {
     },
     page: 1,
     errorMessage: null,
+    productDetail: null,
 };
 
 export const fetchProductsStart = () => ({
@@ -31,6 +34,20 @@ export const fetchProductsSuccess = (dirData) => ({
 
 export const fetchProductsFailure = (errorMessage) => ({
     type: ActionTypes.FETCH_PRODUCTS_FAILURE,
+    payload: errorMessage,
+});
+
+export const getProductDetailStart = () => ({
+    type: ActionTypes.GET_PRODUCT_DETAIL_START,
+});
+
+export const getProductDetailSuccess = (dirData) => ({
+    type: ActionTypes.GET_PRODUCT_DETAIL_SUCCESS,
+    payload: dirData,
+});
+
+export const getProductDetailFailure = (errorMessage) => ({
+    type: ActionTypes.GET_PRODUCT_DETAIL_FAILURE,
     payload: errorMessage,
 });
 

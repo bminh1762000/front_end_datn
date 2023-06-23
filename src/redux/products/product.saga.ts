@@ -2,7 +2,7 @@ import { takeLatest, put, all, call } from 'redux-saga/effects';
 
 import { fetchProductsSuccess, fetchProductsFailure, ActionTypes } from '.';
 
-import { getProductsApi } from '../../service/product';
+import { getProductsApi, getProductDetailApi } from '../../service/product';
 import { loadingEnd, loadingStart } from '../loading/loading.actions';
 
 export function* fetchProductsAsync() {
@@ -15,6 +15,12 @@ export function* fetchProductsAsync() {
     } finally {
         yield put(loadingEnd());
     }
+}
+
+export function* getProductAsync(productId: string) {
+    yield put(loadingStart());
+    const response = yield call(getProductDetailApi, productId);
+    yield put(fetchProductsSuccess(response.product));
 }
 
 export function* fetchProductsStart() {

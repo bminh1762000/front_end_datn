@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import styled from 'styled-components';
 
-const Contact = () => {
+const ContactItem = () => {
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -104,4 +104,4 @@ const ButtonSubmitContainer = styled.div`
     justify-content: center;
 `;
 
-export default Contact;
+export default ContactItem;

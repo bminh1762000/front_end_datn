@@ -7,30 +7,34 @@ import CheckoutItem from '../components/CheckoutItem';
 
 import styled from 'styled-components';
 import { formatPrice } from '../utils/product';
+import Button from '../components/Button';
 
-const CheckoutPage = ({ cartItems, total }) => (
+const CheckoutPage = ({ cartItems, total, history }) => (
     <CheckoutPageContainer>
         <CheckoutHeaderContainer>
             <HeaderBlockContainer>
-                <span>Product</span>
+                <span>Sản phẩm</span>
             </HeaderBlockContainer>
             <HeaderBlockContainer>
-                <span>Description</span>
+                <span>Mô tả</span>
             </HeaderBlockContainer>
             <HeaderBlockContainer>
-                <span>Quantity</span>
+                <span>Số lượng</span>
             </HeaderBlockContainer>
             <HeaderBlockContainer>
-                <span>Price</span>
+                <span>Giá</span>
             </HeaderBlockContainer>
             <HeaderBlockContainer>
-                <span>Remove</span>
+                <span>Xoá</span>
             </HeaderBlockContainer>
         </CheckoutHeaderContainer>
         {cartItems.map((cartItem) => (
             <CheckoutItem key={cartItem._id} cartItem={cartItem} />
         ))}
         <TotalSection>Tổng tiền: {formatPrice(total)}</TotalSection>
+        <Button onClick={() => history.push('/place-order')} className="btn-checkout">
+            <span>Thanh toán</span>
+        </Button>
     </CheckoutPageContainer>
 );
 
@@ -49,6 +53,10 @@ const CheckoutPageContainer = styled.div`
 
     @media screen and (max-width: 800px) {
         width: 90%;
+    }
+
+    .btn-checkout {
+        margin-left: auto;
     }
 `;
 

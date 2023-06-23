@@ -5,7 +5,15 @@ import { cartSagas } from './cart/cart.sagas';
 import { userSagas } from './user/user.sagas';
 import { directorySagas } from './directory/directory.sagas';
 import { productsSagas } from './products/product.saga';
+import { orderSagas } from './order/order.saga';
 
 export default function* rootSaga() {
-    yield all([call(shopSagas), call(userSagas), call(cartSagas), call(directorySagas), call(productsSagas)]);
+    yield all([
+        call(shopSagas),
+        call(userSagas),
+        call(cartSagas),
+        call(directorySagas),
+        call(productsSagas),
+        call(orderSagas),
+    ]);
 }

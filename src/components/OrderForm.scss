@@ -1,0 +1,30 @@
+.checkout_area {
+    .order-details-confirmation {
+        width: 100%;
+        border: 2px solid #ebebeb;
+        padding: 40px;
+        .order-details-form {
+            padding: 0;
+            li {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 0;
+                font-size: 12px;
+                text-transform: uppercase;
+                padding: 20px 0;
+                border-bottom: 2px solid #ebebeb;
+                font-weight: 600;
+
+                &:last-child {
+                    font-weight: 700;
+                    border-bottom: 0;
+                }
+            }
+        }
+
+        .cart-page-heading {
+            margin-bottom: 10px;
+        }
+    }
+}

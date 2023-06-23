@@ -7,17 +7,20 @@ const CartItem = ({
         product: { imageUrl, price, name },
         quantity,
     },
-}) => (
-    <CartItemContainer>
-        <ItemImage src={imageUrl} alt="item" />
-        <ItemDetailsContainer>
-            <span>{name}</span>
-            <span>
-                {quantity} x ${price}
-            </span>
-        </ItemDetailsContainer>
-    </CartItemContainer>
-);
+}) => {
+    const itemPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    return (
+        <CartItemContainer>
+            <ItemImage src={imageUrl} alt="item" />
+            <ItemDetailsContainer>
+                <span>{name}</span>
+                <span>
+                    {quantity} x {itemPrice}
+                </span>
+            </ItemDetailsContainer>
+        </CartItemContainer>
+    );
+};
 
 const CartItemContainer = styled.div`
     width: 100%;

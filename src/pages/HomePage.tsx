@@ -10,7 +10,9 @@ const HomePage = () => {
             <HeroContainer>
                 <h1>Think, Code, Deploy</h1>
                 <h3>Embrace your choice - we do</h3>
-                <button onClick={() => history.push('/products')}>OUR PRODUCTS</button>
+                <button onClick={() => history.push('/products')} type="button">
+                    OUR PRODUCTS
+                </button>
             </HeroContainer>
         </HomePageContainer>
     );

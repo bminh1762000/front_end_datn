@@ -1,0 +1,10 @@
+.orders {
+    margin: auto 0;
+    &__header {
+        font-size: 25px;
+        color: #333;
+        margin-bottom: 8px;
+        font-weight: 500;
+        margin-top: -10px;
+    }
+}

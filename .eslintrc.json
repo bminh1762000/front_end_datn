@@ -18,7 +18,7 @@
         }
     },
     "rules": {
-        "react/button-has-type": "off",
+        "react/button-has-type": "warn",
         "react/default-props-match-prop-types": "warn",
         "react/destructuring-assignment": "off",
         "react/forbid-prop-types": ["error", { "forbid": ["any"] }],
@@ -51,7 +51,7 @@
         "no-unused-vars": "off",
         "no-console": ["error", { "allow": ["warn", "error"] }],
         "no-duplicate-imports": ["warn", { "includeExports": true }],
-        "no-dupe-keys": "error",
+        "no-dupe-keys": "warn",
         "no-alert": "error",
         "@typescript-eslint/no-unused-vars": [
             "error",

@@ -16,7 +16,7 @@ const CartDropdown = ({ cartItems, history, toggleCartHidden, count }) => {
                 {count ? (
                     cartItems.map((item) => <CartItem key={item._id} item={item} />)
                 ) : (
-                    <NotifyContainer>Cart is empty</NotifyContainer>
+                    <NotifyContainer>Giỏ hàng trống</NotifyContainer>
                 )}
             </CartItemsContainer>
             <CartDropdownButton
@@ -25,7 +25,7 @@ const CartDropdown = ({ cartItems, history, toggleCartHidden, count }) => {
                     toggleCartHidden();
                 }}
             >
-                GO TO CHECKOUT
+                Đặt hàng
             </CartDropdownButton>
         </CartDropdownContainer>
     );

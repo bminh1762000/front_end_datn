@@ -49,4 +49,12 @@ const clearItemFromCartApi = async (itemId: string, token: string) => {
     );
 };
 
-export { getCartItemsApi, addCartItemApi, removeItemFromCartApi, clearItemFromCartApi };
+const clearCartApi = async (token: string) => {
+    return callHttpClientMethod(`/api/shop/collection/clear`, HTTP_METHOD.post, undefined, {
+        headers: {
+            Authorization: 'Bearer ' + token,
+        },
+    });
+};
+
+export { getCartItemsApi, addCartItemApi, removeItemFromCartApi, clearItemFromCartApi, clearCartApi };

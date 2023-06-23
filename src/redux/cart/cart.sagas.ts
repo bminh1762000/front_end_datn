@@ -3,7 +3,13 @@ import { put, takeLatest, all, call } from 'redux-saga/effects';
 import UserActionTypes from '../user/user.types';
 import CartActionTypes from './cart.types';
 
-import { getCartItemsApi, addCartItemApi, clearItemFromCartApi, removeItemFromCartApi } from '../../service/cart';
+import {
+    getCartItemsApi,
+    addCartItemApi,
+    clearItemFromCartApi,
+    removeItemFromCartApi,
+    clearCartApi,
+} from '../../service/cart';
 
 import {
     clearCart,
@@ -15,6 +21,8 @@ import {
     clearItemFromCartFailure,
     fetchCartSuccess,
     fetchCartFailure,
+    clearCartFailure,
+    clearCartSuccess,
 } from './cart.actions';
 
 export function* fetchCartAsync({ payload }: any) {
@@ -57,6 +65,15 @@ export function* clearItemFromCart({ payload: { itemId, token } }: any) {
     }
 }
 
+export function* clearAllCart({ payload: { token } }: any) {
+    try {
+        yield call(clearCartApi, token);
+        yield put(clearCartSuccess());
+    } catch (error) {
+        yield put(clearCartFailure(error.message));
+    }
+}
+
 export function* onFetchCartStart() {
     yield takeLatest(CartActionTypes.FETCH_CART_START, fetchCartAsync);
 }
@@ -77,6 +94,10 @@ export function* onClearItemFromCartStart() {
     yield takeLatest(CartActionTypes.CLEAR_ITEM_START, clearItemFromCart);
 }
 
+export function* onClearCartStart() {
+    yield takeLatest(CartActionTypes.CLEAR_CART_START, clearAllCart);
+}
+
 export function* cartSagas() {
     yield all([
         call(onFetchCartStart),
@@ -84,5 +105,6 @@ export function* cartSagas() {
         call(onAddToCartStart),
         call(onRemoveFromCartStart),
         call(onClearItemFromCartStart),
+        call(onClearCartStart),
     ]);
 }

@@ -1,22 +1,118 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaArrowLeft } from 'react-icons/fa';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { forgotPasswordApi, resetPasswordApi } from '../service/user';
+import FormInput from './FormInput';
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ history }) => {
+    const [step, setStep] = useState(1); // [1, 2, 3]
+
+    const chooseSchemeValidate = () => {
+        switch (step) {
+            case 0:
+                return Yup.object().shape({
+                    email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
+                });
+
+            case 1:
+                return Yup.object().shape({
+                    code: Yup.string().required('Mã xác nhận không được để trống'),
+                });
+        }
+    };
+
+    const formik = useFormik({
+        validationSchema: chooseSchemeValidate(),
+        initialValues: {
+            email: '',
+            code: '',
+            password: '',
+        },
+        onSubmit: async (values) => {
+            if (step === 0) {
+                const res = await forgotPasswordApi(values.email ?? '');
+                if (res.isSuccess) {
+                    setStep(1);
+                }
+            }
+            if (step === 1) {
+                const res = await resetPasswordApi(values.password || '', values.code || '');
+                if (res.error_code === 0) {
+                    history.push('/login');
+                }
+            }
+        },
+    });
+
+    const { values, errors, touched, handleChange, handleSubmit } = formik;
+
     return (
         <ForgotPasswordContainer>
             <div className="form-forgot-password">
                 <h3 className="text-center mb-3">Đặt lại mật khẩu của bạn</h3>
-                <p className="text-center mt-2 mb-3">Chúng tôi sẽ gửi cho bạn một email để đặt lại mật khẩu của bạn</p>
-                <div className="d-flex flex-column align-items-center justify-content-center gap-15">
-                    <input type="email" name="email" placeholder="Email" className="input-email" />
-                    <button className="button border-0 btn-reset-password">Gửi</button>
-                    <div className="back-to-login">
-                        <FaArrowLeft />
-                        <Link to="/login">Trở về trang đăng nhập</Link>
+                {step === 1 && (
+                    <div className="d-flex flex-column align-items-center justify-content-center gap-15">
+                        <FormInput
+                            name="email"
+                            type="email"
+                            handleChange={handleChange('email')}
+                            value={values.email}
+                            isValid={!(!!errors.email && touched.email)}
+                            error={errors.email}
+                            label="Email"
+                        />
+                        <button
+                            className="button border-0 btn-reset-password"
+                            onClick={() => handleSubmit()}
+                            type="button"
+                        >
+                            Gửi
+                        </button>
+                        <div className="back-to-login">
+                            <FaArrowLeft />
+                            <Link to="/login">Trở về trang đăng nhập</Link>
+                        </div>
                     </div>
-                </div>
+                )}
+                {step === 2 && (
+                    <div className="d-flex flex-column align-items-center justify-content-center gap-15">
+                        <div>
+                            <FormInput
+                                name="code"
+                                type="text"
+                                handleChange={handleChange('code')}
+                                value={values.code}
+                                isValid={!(!!errors.code && touched.code)}
+                                error={errors.code}
+                                label="OPT"
+                            />
+                            <FormInput
+                                name="password"
+                                type="password"
+                                handleChange={handleChange('password')}
+                                value={values.password}
+                                isValid={!(!!errors.password && touched.password)}
+                                error={errors.password}
+                                label="Email"
+                            />
+                        </div>
+
+                        <button
+                            className="button border-0 btn-reset-password"
+                            onClick={() => handleSubmit()}
+                            type="button"
+                        >
+                            Xác nhận
+                        </button>
+                        <div className="back-to-login">
+                            <FaArrowLeft />
+                            <Link to="/login">Trở về trang đăng nhập</Link>
+                        </div>
+                    </div>
+                )}
             </div>
         </ForgotPasswordContainer>
     );

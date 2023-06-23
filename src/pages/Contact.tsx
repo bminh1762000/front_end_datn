@@ -2,11 +2,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Contact from '../components/ContactItem';
+import ContactItem from '../components/ContactItem';
 
 const ContactPage = () => (
     <ContactContainer>
-        <Contact />
+        <ContactItem />
     </ContactContainer>
 );
 

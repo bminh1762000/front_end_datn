@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { loginSchema } from '../utils/validation/login';
 
-const SignIn = ({ emailSignInStart }) => {
+const SignIn = ({ emailSignInStart, errorLogin }) => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -57,6 +57,7 @@ const SignIn = ({ emailSignInStart }) => {
                     isValid={!(!!errors.password && touched.password)}
                     error={errors.password}
                 />
+                {errorLogin && <div className="text-danger mb-2">{errorLogin.message}</div>}
                 <div className="forgot-password">
                     <Link to="/forgot-password">Quên mật khẩu?</Link>
                 </div>
@@ -114,8 +115,12 @@ const ButtonsContainer = styled.div`
     }
 `;
 
+const mapStateToProps = (state) => ({
+    errorLogin: state.user.error,
+});
+
 const mapDispatchToProps = (dispatch) => ({
     emailSignInStart: (emailAndPassword) => dispatch(emailSignInStart(emailAndPassword)),
 });
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

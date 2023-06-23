@@ -56,7 +56,7 @@ const Header = ({ history, user, hidden, changeFilter }: Props) => {
                         <input
                             className="search-input"
                             type="text"
-                            placeholder="Search"
+                            placeholder="Tìm kiếm"
                             name="search"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
