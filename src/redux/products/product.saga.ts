@@ -11,6 +11,7 @@ export function* fetchProductsAsync() {
         const response = yield call(getProductsApi);
         yield put(fetchProductsSuccess(response.products));
     } catch (error) {
+        alert(error.message);
         yield put(fetchProductsFailure(error.message));
     } finally {
         yield put(loadingEnd());
@@ -18,9 +19,16 @@ export function* fetchProductsAsync() {
 }
 
 export function* getProductAsync(productId: string) {
-    yield put(loadingStart());
-    const response = yield call(getProductDetailApi, productId);
-    yield put(fetchProductsSuccess(response.product));
+    try {
+        yield put(loadingStart());
+        const response = yield call(getProductDetailApi, productId);
+        yield put(fetchProductsSuccess(response.product));
+    } catch (error) {
+        alert(error.message);
+        yield put(fetchProductsFailure(error.message));
+    } finally {
+        yield put(loadingEnd());
+    }
 }
 
 export function* fetchProductsStart() {
