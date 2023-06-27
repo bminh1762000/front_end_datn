@@ -10,16 +10,6 @@ import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { loginSchema } from '../utils/validation/login';
 
-const ROOT = 'sign-in';
-
-const isEmail = (value) => {
-    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
-};
-
-const isRequired = (value) => {
-    return value.trim() !== '';
-};
-
 const SignIn = ({ emailSignInStart, errorLogin }) => {
     const formik = useFormik({
         enableReinitialize: true,

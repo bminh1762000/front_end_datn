@@ -30,7 +30,6 @@ export function* fetchCartAsync({ payload }: any) {
         const response = yield call(getCartItemsApi, payload);
         yield put(fetchCartSuccess(response.cart));
     } catch (error) {
-        console.log(error.message);
         yield put(fetchCartFailure(error.message));
     }
 }
@@ -44,7 +43,6 @@ export function* addToCart({ payload: { itemId, token } }: any) {
         const cart = yield call(addCartItemApi, itemId, token);
         yield put(addItemSuccess(cart.newCart));
     } catch (error) {
-        console.log(error.message);
         yield put(addItemFailure(error.message));
     }
 }
